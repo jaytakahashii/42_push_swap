@@ -15,7 +15,6 @@ performance
 Number of commands when the number of elements is 5:
 max   : 11
 median: 8
-min   : 0
 
 Number of commands when the number of elements is 100:
 max   : 738
@@ -143,5 +142,3 @@ To clean all files generated while doing a make, go to the path and run:
 ```shell
 $ make fclean
 ```
-
-
