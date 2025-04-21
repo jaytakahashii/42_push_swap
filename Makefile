@@ -1,42 +1,49 @@
+MAKEFILE = Makefile
+
 NAME = push_swap
-LIBFT_NAME = libft
+
+SRC_DIR = src/
+OBJ_DIR = .obj/
+
 LIBFT_DIR = libft/
+LIBFT_NAME = libft.a
+
 INCLUDE_DIR = include/
 INCLUDE = -I $(INCLUDE_DIR)
 LIBFT_INCLUDE = -I $(LIBFT_DIR)$(INCLUDE_DIR)
-SRC_DIR = src/
-OBJ_DIR = .obj/
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-AR = ar
-ARFLAGS = rcs
+PEDANTIC = --pedantic
+SANITIZE = -fsanitize=address
+
 RM = rm -rf
 NORM = norminette
 
 COMMAND_UTILS_DIR = command_utils/
-COMMAND_UTILS_SRC = command_utils.c\
-					command_utils2.c\
-					command_utils3.c
+COMMAND_UTILS_SRC = command_utils.c \
+										command_utils2.c \
+										command_utils3.c
 
 STACK_UTILS_DIR = stack_utils/
-STACK_UTILS_SRC = stack_management.c\
-					stack_info.c\
-					stack_checker.c
+STACK_UTILS_SRC = stack_management.c \
+									stack_info.c \
+									stack_checker.c
 
-MAIN_DIR = main/
-MAIN_SRC = main.c\
-			push_swap.c\
-			sort.c
+MAIN_DIR	= main/
+MAIN_SRC	= main.c\
+						push_swap.c\
+						sort.c
 
-OPERATIONS_DIR = operations/
-OPERATIONS_SRC = swap.c\
-				rotate.c\
-				reverse_rotate.c\
-				push.c
+OPERATIONS_DIR	= operations/
+OPERATIONS_SRC	= swap.c\
+									rotate.c\
+									reverse_rotate.c\
+									push.c
 
 UTILS_DIR = utils/
 UTILS_SRC = push_swap_atoi.c\
-			error.c
+						error.c
 
 SRC_FILES += $(addprefix $(COMMAND_UTILS_DIR), $(COMMAND_UTILS_SRC))
 SRC_FILES += $(addprefix $(STACK_UTILS_DIR), $(STACK_UTILS_SRC))
@@ -60,13 +67,9 @@ CUT 		= "\033[K"
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJS)
-	@echo "\n"
-	@echo $(B) "--> Into libft directory" $(X)
 	@$(MAKE) -C $(LIBFT_DIR)
-	@echo $(B) "*** $(NAME) creating ***" $(X)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME)
-	@echo "\n"
-	@echo $(G) "!!!!!!! $(NAME) created success !!!!!!!" $(X)
+	@echo $(G) "!! $(NAME) created !!" $(X)
 
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
@@ -76,23 +79,29 @@ $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)$(OPERATIONS_DIR)
 	@mkdir $(OBJ_DIR)$(UTILS_DIR)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDE) $(LIBFT_INCLUDE) -c $< -o $@
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
-	@echo $(R) "<< push_swap cleaning>>" $(X)
 	$(RM) $(OBJ_DIR)
-	@echo "\n"
+	@echo $(R) "$(OBJ_DIR) has been removed.\n" $(X)
 
 fclean:
 	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@echo $(R) "<< push_swap fcleaning >>" $(X)
 	$(RM) $(OBJ_DIR)
 	$(RM) $(NAME)
-	@echo "\n"
+	@echo $(R) "$(NAME) and $(OBJ_DIR) has been removed.\n" $(X)
 
 re: fclean all
+
+pedantic: CFLAGS += $(PEDANTIC)
+pedantic: re
+	@echo $(G) "pedantic mode activated.\n" $(X)
+
+leaks: CFLAGS += $(SANITIZE)
+leaks: re
+	@echo $(G) "leaks mode activated.\n" $(X)
 
 norm:
 	@echo $(R) "<<< push_swap error count >>>" $(X)

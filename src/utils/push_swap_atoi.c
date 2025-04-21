@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   push_swap_atoi.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jay <jay@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:33:28 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/05/13 17:06:15 by jtakahas         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:00:55 by jay              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-static char	*pass_space(char *str)
-{
-	while (ft_isspace(*str))
-		str++;
-	return (str);
-}
 
 static char	*check_plus_minus(char *str, int *sign)
 {
@@ -46,7 +39,7 @@ bool	push_swap_atoi(char *str, int *data)
 
 	sign = 1;
 	ans = 0;
-	str = pass_space(str);
+	pass_space(&str);
 	str = check_plus_minus(str, &sign);
 	if (*str == '\0' || str == NULL)
 		return (false);
